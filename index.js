@@ -24,6 +24,29 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    const jobsCollection = client.db("jobDB").collection("jobs");
+
+    // job post
+    app.post("/jobs", async (req, res) => {
+      try {
+        const job = req.body;
+        const result = await jobsCollection.insertOne(job);
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // job get
+    app.get("/jobs", async (req, res) => {
+      try {
+        const result = await jobsCollection.find().toArray();
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
