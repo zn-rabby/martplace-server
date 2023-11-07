@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const port = process.env.PORT || 5000;
 
 app.use(cors());
@@ -46,6 +46,30 @@ async function run() {
         console.log(error);
       }
     });
+    // get single jobs
+    app.get("/jobs/:id", async (req, res) => {
+      try {
+        const id = req.params.id;
+        console.log(id);
+        const query = { _id: new ObjectId(id) };
+        const result = await jobsCollection.findOne(query);
+        res.send(result);
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
+    // // get single data
+    // app.get("/jobs/:email", async (req, res) => {
+    //   try {
+    //     const email = req.params?.email;
+    //     const query = { email: email };
+    //     const result = await jobsCollection.find(query).toArray();
+    //     res.send(result);
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
