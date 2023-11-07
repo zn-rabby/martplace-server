@@ -59,17 +59,17 @@ async function run() {
       }
     });
 
-    // // get single data
-    // app.get("/jobs/:email", async (req, res) => {
-    //   try {
-    //     const email = req.params?.email;
-    //     const query = { email: email };
-    //     const result = await jobsCollection.find(query).toArray();
-    //     res.send(result);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // });
+    // delete my post jobs
+    app.delete("/jobs/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id, req.params);
+      const query = {
+        _id: new ObjectId(id),
+      };
+      const result = await jobsCollection.deleteOne(query);
+      console.log(result);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
