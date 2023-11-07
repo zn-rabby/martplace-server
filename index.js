@@ -71,6 +71,31 @@ async function run() {
       res.send(result);
     });
 
+    // update jobs
+    app.put("/jobs/:id", async (req, res) => {
+      const id = req.params.id;
+      const jobs = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateJobs = {
+        $set: {
+          email: jobs.email,
+          title: jobs.title,
+          jobCategory: jobs.jobCategory,
+          salleryStart: jobs.salleryStart,
+          salleryEnd: jobs.salleryEnd,
+          description: jobs.description,
+          deadline: jobs.deadline,
+        },
+      };
+      const result = await jobsCollection.updateOne(
+        filter,
+        updateJobs,
+        options
+      );
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
