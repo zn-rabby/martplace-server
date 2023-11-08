@@ -25,6 +25,7 @@ async function run() {
     await client.connect();
 
     const jobsCollection = client.db("jobDB").collection("jobs");
+    const bidsCollection = client.db("jobDB").collection("bids");
 
     // job post
     app.post("/jobs", async (req, res) => {
@@ -62,12 +63,10 @@ async function run() {
     // delete my post jobs
     app.delete("/jobs/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id, req.params);
       const query = {
         _id: new ObjectId(id),
       };
       const result = await jobsCollection.deleteOne(query);
-      console.log(result);
       res.send(result);
     });
 
@@ -94,6 +93,17 @@ async function run() {
         options
       );
       res.send(result);
+    });
+
+    //      single job apply
+    app.post("/bids", async (req, res) => {
+      try {
+        const appliedJob = req.body;
+        const result = await bidsCollection.insertOne(appliedJob);
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     // Send a ping to confirm a successful connection
