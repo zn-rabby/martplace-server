@@ -106,14 +106,22 @@ async function run() {
       }
     });
     // bid get
-    app.get("/bids", async (req, res) => {
+    app.get("/bids/:email", async (req, res) => {
       try {
-        const result = await bidsCollection.find().toArray();
+        const email = req.params.email;
+        const query = { appliedEmail: email };
+        const result = await bidsCollection.find(query).toArray();
         res.send(result);
       } catch (error) {
         console.log(error);
       }
     });
+    // app.get("/api/v1/booking/:email", async (req, res) => {
+    //   const email = req.params.email;
+    //   const query = { email: email };
+    //   const bookedRooms = await bookingCollection.find(query).toArray();
+    //   res.send(bookedRooms);
+    // });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
