@@ -95,11 +95,20 @@ async function run() {
       res.send(result);
     });
 
-    //      single job apply
+    //   single job apply
     app.post("/bids", async (req, res) => {
       try {
         const appliedJob = req.body;
         const result = await bidsCollection.insertOne(appliedJob);
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    // bid get
+    app.get("/bids", async (req, res) => {
+      try {
+        const result = await bidsCollection.find().toArray();
         res.send(result);
       } catch (error) {
         console.log(error);
