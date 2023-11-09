@@ -119,7 +119,10 @@ async function run() {
       try {
         const email = req.params.email;
         const query = { appliedEmail: email };
-        const result = await bidsCollection.find(query).toArray();
+        const result = await bidsCollection
+          .find(query)
+          .sort({ status: 1 })
+          .toArray();
         res.send(result);
       } catch (error) {
         console.log(error);
