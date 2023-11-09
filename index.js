@@ -51,7 +51,7 @@ async function run() {
     app.get("/jobs/:id", async (req, res) => {
       try {
         const id = req.params.id;
-        console.log(id);
+        // console.log(id);
         const query = { _id: new ObjectId(id) };
         const result = await jobsCollection.findOne(query);
         res.send(result);
@@ -105,6 +105,15 @@ async function run() {
         console.log(error);
       }
     });
+    // bidsCollection get
+    app.get("/bids", async (req, res) => {
+      try {
+        const result = await bidsCollection.find().toArray();
+        res.send(result);
+      } catch (error) {
+        console.log(error);
+      }
+    });
     // bid get
     app.get("/bids/:email", async (req, res) => {
       try {
@@ -116,12 +125,34 @@ async function run() {
         console.log(error);
       }
     });
-    // app.get("/api/v1/booking/:email", async (req, res) => {
-    //   const email = req.params.email;
-    //   const query = { email: email };
-    //   const bookedRooms = await bookingCollection.find(query).toArray();
-    //   res.send(bookedRooms);
-    // });
+    // update
+    app.patch("/bids/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedBooking = req.body;
+      console.log(updatedBooking);
+      const updateDoc = {
+        $set: {
+          status: updatedBooking.status,
+        },
+      };
+      const result = await bidsCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+    // update;
+    app.patch("/bids/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updatedBooking = req.body;
+      console.log(updatedBooking);
+      const updateDoc = {
+        $set: {
+          status: updatedBooking.reject,
+        },
+      };
+      const result = await bidsCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
