@@ -3,7 +3,6 @@
 
 ## 🔗 Links
 - **Live Site**: [martplace-d6c8a.web.app](https://martplace-d6c8a.web.app/)
-- **API Base URL**: `your-api-url.com` (replace with actual)
 
 ## 🚀 Features
 - JWT Authentication
@@ -33,16 +32,3 @@
 - `POST /applications` - Apply for job
 - `PATCH /applications/:id` - Update status
 
-## 📝 License
-MIT
-
----
-
-This version:
-- Uses emojis for visual scanning
-- Keeps only essential information
-- Maintains clear structure
-- Removes implementation details
-- Presents core features and setup briefly
-
-Adjust the API URL and add any critical endpoints you want to highlight.
